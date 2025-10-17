@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Centro Universitário Unieuro - Calculadora PROUNI</title>
+    <link rel="shortcut icon" href="./assets/images/logo.png" type="image/png" />
+    <link href="/assets/style.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+
+<body class="text-gray-800 leading-relaxed">
+
+    <!-- Header com logo e redes sociais -->
+    <header class="bg-white flex flex-wrap justify-between items-center px-8 py-4">
+        <img src="/assets/images/unieuro.png" alt="Centro Universitário Unieuro" class="h-14" />
+        <nav class="flex gap-3">
+            <a href="https://twitter.com/UNIEURO_OFICIAL" target="_blank"
+                class="w-8 h-8 rounded-full flex items-center justify-center bg-[#0D4B81] text-white">
+                <i class="bi bi-twitter-x"></i>
+            </a>
+            <a href="https://www.facebook.com/unieuronarede" target="_blank"
+                class="w-8 h-8 rounded-full flex items-center justify-center bg-[#0D4B81] text-white">
+                <i class="bi bi-facebook "></i>
+            </a>
+            <a href="https://www.instagram.com/unieuro_oficial/" target="_blank"
+                class="w-8 h-8 rounded-full flex items-center justify-center bg-[#0D4B81] text-white">
+                <i class="bi bi-instagram"></i>
+            </a>
+            <a href="https://www.youtube.com/channel/UCtV17kCGS6rCvnqFyUgl1vw" target="_blank"
+                class="w-8 h-8 rounded-full flex items-center justify-center bg-[#0D4B81] text-white">
+                <i class="bi bi-youtube"></i>
+            </a>
+        </nav>
+    </header>
+
+    <!-- Menu de navegação principal -->
+    <nav class="bg-[#0D4B81]">
+        <ul
+            class="flex items-center gap-4 md:gap-10 text-white font-semibold ml-0 md:ml-10 p-3 md:p-0 md:h-[50px]">
+            <li class="cursor-pointer">TELA INICIAL</li>
+            <li class="cursor-pointer">CALCULADORA PROUNI</li>
+            <li class="cursor-pointer">FAQ</li>
+        </ul>
+    </nav>
+
+    <!-- Conteúdo principal -->
+    <main class="max-w-7xl mx-auto px-5 md:px-10 py-10">
+
+        <!-- Seção 1: Valores de referência -->
+        <section>
+            <h2 class="text-xl font-bold text-[#0D4B81] mb-8 border-b-4 border-[#C9B054] inline-block w-full pb-2">
+                1. Insira os valores de referência
+            </h2>
+
+            <form>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                    <div>
+                        <label for="valor-mensalidade" class="flex items-center gap-2 text-gray-700 text-[15px] font-medium mb-2">
+                            <span class="flex items-center justify-center w-5 h-5 border border-gray-700 rounded-full">
+                                <i class="bi bi-currency-dollar text-xs text-gray-700"></i>
+                            </span>
+                            Valor bruto da mensalidade
+                        </label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-3 flex items-center text-gray-500">R$</span>
+                            <input id="valor-mensalidade" type="number" step="any" placeholder="0,00"
+                                class="bg-white pl-10 w-full p-2 border border-gray-300 rounded-md text-gray-700 outline-none" />
+                        </div>
+                        <p class="text-xs text-gray-500 mt-2">Valor bruto, antes de descontos.</p>
+                    </div>
+
+                    <div>
+                        <label for="desconto-unieuro" class="flex items-center gap-2 text-gray-700 text-[15px] font-medium mb-2">
+                            <span class="flex items-center justify-center w-5 h-5 border border-gray-700 rounded-full">
+                                <i class="bi bi-percent text-xs text-gray-700"></i>
+                            </span>
+                            Desconto concedido pela Unieuro
+                        </label>
+                        <div class="relative">
+                            <input id="desconto-unieuro" type="number" min="5" max="100" step="any" placeholder="0"
+                                class="bg-white w-full pl-4 p-2 border border-gray-300 rounded-md pr-10 text-gray-700 outline-none" />
+                            <span class="absolute inset-y-0 right-3 flex items-center text-gray-500">%</span>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-2">Descontos permitidos de 5% a 50%.</p>
+                    </div>
+                </div>
+
+                <div class="flex flex-col sm:flex-row justify-end gap-6 mt-6 ">
+                    <button type="reset"
+                        class="bg-white flex items-center gap-2 px-10 py-2 rounded-md border border-gray-300 cursor-pointer">
+                        <i class="bi bi-trash3"></i> Limpar
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Seção 2: Resultado Base -->
+        <section class="bg-white rounded-xl">
+            <h2 class="text-xl font-bold text-[#0D4B81] mb-8">
+                2. Resultado Base <span class="font-normal text-[#C9B054]">
+                    (com <span id="descAplicado">0%</span> de desconto da Unieuro)
+                </span>
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10 text-center">
+                <div class="border-2 border-[#0D4B81] rounded-xl py-10 px-4 bg-gray-50">
+                    <i class="bi bi-wallet2 text-4xl text-[#0D4B81] mb-3"></i>
+                    <p class="text-xl font-medium text-gray-600">Mensalidade com desconto</p>
+                    <h3 id="mensalidade-result" class="text-5xl font-extrabold text-[#0D4B81]">R$ 0,00</h3>
+                    <p class="text-gray-500 text-sm mt-1">Valor que você paga por mês</p>
+                </div>
+
+                <div class="border-2 border-[#C9B054] rounded-xl py-10 px-4 bg-gray-50">
+                    <i class="bi bi-calendar2-check text-4xl text-[#C9B054] mb-3"></i>
+                    <p class="text-xl font-medium text-gray-600">Total do semestre</p>
+                    <h3 id="semestre-result" class="text-5xl font-extrabold text-[#C9B054]">R$ 0,00</h3>
+                    <p class="text-gray-500 text-sm mt-1">Soma de 6 mensalidades</p>
+                </div>
+
+                <div class="border-2 border-[#7A8C45] rounded-xl py-10 px-4 bg-gray-50">
+                    <i class="bi bi-graph-down-arrow text-4xl text-[#7A8C45] mb-3"></i>
+                    <p class="text-xl font-medium text-gray-600">Total economizado</p>
+                    <h3 id="economia-result" class="text-5xl font-extrabold text-[#7A8C45]">R$ 0,00</h3>
+                    <p class="text-gray-500 text-sm mt-1">Quanto você deixa de pagar com o desconto</p>
+                </div>
+            </div>
+
+            <div class="mt-6 bg-[#e8f2fb] px-6 py-4 rounded-lg border-l-4 border-[#0D4B81] text-sm text-gray-600">
+                <span class="font-semibold text-[#0D4B81]">
+                    <i class="bi bi-exclamation-circle text-[#0D4B81] mr-1"></i> Importante:
+                </span>
+                Estes valores são a base para calcular os próximos descontos, como PROUNI ou FIES.
+            </div>
+        </section>
+
+        <!-- Seção 3: Checkbox PROUNI -->
+        <div class="flex items-center mt-4">
+            <input type="checkbox" class="peer sr-only opacity-0" id="toggle" />
+            <label for="toggle"
+                class="relative flex h-6 w-11 cursor-pointer items-center rounded-full bg-gray-400 px-0.5 outline-gray-400 transition-colors before:h-5 before:w-5 before:rounded-full before:bg-white before:shadow before:transition-transform before:duration-300 peer-checked:bg-[#0D4B81] peer-checked:before:translate-x-full peer-focus-visible:outline peer-focus-visible:outline-offset-2 peer-focus-visible:outline-gray-400 peer-checked:peer-focus-visible:outline-[#0D4B81]">
+                <span class="sr-only">Enable</span>
+            </label>
+
+            <span class="ml-4 text-base text-gray-700 font-sans select-none">
+                Você recebe alguma bolsa do Programa Universidade para Todos (Prouni)?
+            </span>
+        </div>
+
+        <!-- Seção 4: Simulação PROUNI -->
+        <section>
+            <h2 class="text-xl font-bold text-[#0D4B81] mb-6 mt-8">3. Simule seus descontos, incluindo o PROUNI</h2>
+
+            <div class="bg-[#e9f4fd] border-2 border-[#96bfe6] rounded-xl px-8 py-8 mb-8">
+                <img src="/assets/images/prouni.png" alt="Logo PROUNI" class="h-16" />
+
+                <h3 class="text-xl font-bold text-[#446487]">Valor com desconto aplicado</h3>
+                <p class="text-gray-700 mb-4">
+                    Aqui você vê o valor final da mensalidade com o desconto do PROUNI de
+                    <strong class="text-[#446487]">50%</strong> já incluído.
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                    <div class="bg-[#e3eef8] rounded-lg px-8 py-6">
+                        <p class="font-bold text-lg text-gray-700">Mensalidade</p>
+                        <h3 id="mensalidade-prouni" class="text-4xl font-extrabold text-[#446487]">R$ 0,00</h3>
+                        <p class="text-xs text-gray-600">Valor por mês com o desconto do PROUNI</p>
+                    </div>
+
+                    <div class="bg-[#e3eef8] rounded-lg px-8 py-6">
+                        <p class="font-bold text-lg text-gray-700">Semestre</p>
+                        <h3 id="semestre-prouni" class="text-4xl font-extrabold text-[#446487]">R$ 0,00</h3>
+                        <p class="text-xs text-gray-600">Total para 6 meses</p>
+                    </div>
+
+                    <div class="border-2 border-[#446487] rounded-lg px-8 py-6 bg-[#e3eef8]">
+                        <p class="text-lg font-bold text-gray-700">Sua economia com o PROUNI</p>
+                        <h3 id="economia-prouni" class="text-4xl font-extrabold text-[#446487]">R$ 0,00</h3>
+                        <p class="text-xs text-gray-600">Economia em relação ao valor original</p>
+                    </div>
+                </div>
+
+                <p class="mt-2 text-sm text-gray-600">
+                    <span class="text-[#446487] font-semibold">Resumo:</span>
+                    Aplicamos 50% de desconto sobre o valor já reduzido pela Unieuro.
+                </p>
+
+                <div class="flex items-center justify-end gap-5 mt-4">
+                    <p class="text-blue-900 font-medium text-sm">Quer solicitar financiamento pelo FIES?</p>
+                    <a href="https://sisfiesportal.mec.gov.br/?pagina=simulacao" target="_blank"
+                        rel="noopener noreferrer"
+                        class="flex items-center gap-2 px-5 py-2 rounded-md text-white bg-[#0D4B81]">
+                        <i class="bi bi-box-arrow-up-right text-xs"></i> FIES
+                    </a>
+                </div>
+            </div>
+
+            <div class="bg-[#fffedc] border-2 border-[#E6C33D] rounded-xl px-6 py-4 text-sm text-[#786714]">
+                <span class="font-bold">
+                    <i class="bi bi-exclamation-circle mr-1"></i>Importante:
+                </span>
+                Os descontos são aplicados nesta ordem: <span class="font-bold text-[#9D4C00]">Unieuro ⇢ PROUNI ⇢
+                    FIES</span>. Cada desconto considera o valor já ajustado pelo anterior.
+            </div>
+        </section>
+
+        <!-- Seção 5: Mais Informações -->
+        <section>
+            <h2 class="text-xl font-bold text-[#0D4B81] mt-10">Mais Informações</h2>
+            <p class="mb-6 text-base text-gray-700">
+                Acesse recursos oficiais para obter informações sobre programas de financiamento estudantil.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-7 mb-7">
+                <a href="https://acessounico.mec.gov.br/prouni" target="_blank" rel="noopener noreferrer"
+                    class="relative flex flex-col p-4 rounded-lg border border-[#42cb60] hover:shadow-md transition-shadow">
+                    <div class="flex items-center gap-4 mb-2">
+                        <span class="flex-shrink-0 w-12 h-12 flex items-center justify-center rounded-full bg-[#e7fbe5]">
+                            <i class="bi bi-question-circle text-[#42cb60] text-2xl"></i>
+                        </span>
+                        <div class="flex items-center justify-between flex-1">
+                            <p class="font-semibold text-[#0D4B81] text-base m-0">PROUNI</p>
+                            <span class="text-[#42cb60] text-base opacity-60">
+                                <i class="bi bi-arrow-right"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <span class="block text-sm text-gray-500">Informações sobre bolsas, requisitos e inscrições do PROUNI.
+                    </span>
+                </a>
+
+                <a href="https://www.caixa.gov.br/Downloads/credito-fies/Cartilha_Estudante_FIES.pdf" target="_blank"
+                    rel="noopener noreferrer" class="relative flex flex-col p-4 rounded-lg border border-[#a77fe1] hover:shadow-md transition-shadow">
+                    <div class="flex items-center gap-4 mb-2">
+                        <span class="flex-shrink-0 w-12 h-12 flex items-center justify-center rounded-full bg-[#f3e7fd]">
+                            <i class="bi bi-journal-bookmark-fill text-[#a77fe1] text-2xl"></i>
+                        </span>
+                        <div class="flex items-center justify-between flex-1">
+                            <p class="font-semibold text-[#0D4B81] text-base m-0">Cartilha do PROUNI</p>
+                            <span class="text-[#a77fe1] text-base opacity-60">
+                                <i class="bi bi-arrow-right"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <span class="block text-sm text-gray-500">Guia oficial com regras e principais benefícios do PROUNI.
+                    </span> 
+                </a>
+
+                <a href="https://www.caixa.gov.br/programas-sociais/fies/Paginas/default.aspx" target="_blank"
+                    rel="noopener noreferrer" class="relative flex flex-col p-4 rounded-lg border border-[#2395eb] hover:shadow-md transition-shadow">
+                    <div class="flex items-center gap-4 mb-2">
+                        <span class="flex-shrink-0 w-12 h-12 flex items-center justify-center rounded-full bg-[#e7f2fe]">
+                            <i class="bi bi-question-circle text-[#2395eb] text-2xl"></i>
+                        </span>
+                        <div class="flex items-center justify-between flex-1">
+                            <p class="font-semibold text-[#0D4B81] text-base m-0">FIES</p>
+                            <span class="text-[#2395eb] text-base opacity-60">
+                                <i class="bi bi-arrow-right"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <span class="block text-sm text-gray-500">Informações sobre regras, prazos e benefícios do FIES.</span>
+                </a>
+
+                <a href="https://www.caixa.gov.br/Downloads/credito-fies/Cartilha_Estudante_FIES.pdf" target="_blank" rel="noopener noreferrer"
+                    class="relative flex flex-col p-4 rounded-lg border border-[#ea9857] hover:shadow-md transition-shadow">
+                    <div class="flex items-center gap-4 mb-2">
+                        <span class="flex-shrink-0 w-12 h-12 flex items-center justify-center rounded-full bg-[#fff3eb]">
+                            <i class="bi bi-journal-bookmark-fill text-[#ea9857] text-2xl"></i>
+                        </span>
+                        <div class="flex items-center justify-between flex-1">
+                            <p class="font-semibold text-[#0D4B81] text-base m-0">Cartilha do FIES</p>
+                            <span class="text-[#ea9857] text-base opacity-60">
+                                <i class="bi bi-arrow-right"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <span class="block text-sm text-gray-500">Informações oficiais sobre financiamentos estudantis e programas relacionados.</span>
+                </a>
+            </div>
+
+            <div class="mt-6 bg-[#e8f2fb] px-6 py-4 rounded-lg border-l-4 border-[#0D4B81] text-sm text-[#0D4B81] shadow-sm flex items-center gap-2">
+                <i class="bi bi-exclamation-circle mr-1 text-[#0D4B81]"></i>
+                <span>
+                    Todos os links acima levam a sites oficiais. Consulte sempre para obter informações atualizadas sobre regras e requisitos dos programas.
+                </span>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Rodapé -->
+    <footer class="bg-[#093763] text-gray-300 text-center text-xs py-2 select-none">
+        © 2025 Centro Universitário Unieuro — Desenvolvido pela Fábrica de Software | SOFTHUB.
+    </footer>
+
+    <script defer type="text/javascript" src="/assets/main.js"></script>
+</body>
+
+</html>
