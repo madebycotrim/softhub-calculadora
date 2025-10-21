@@ -4,3 +4,81 @@
 body {
     font-family: 'Roboto', sans-serif;
 }
+
+@media print {
+
+    header,
+    nav,
+    footer,
+    button,
+    input,
+    label,
+    .cursor-pointer,
+    #download,
+    .flex.gap-3,
+    .rounded-full {
+        display: none !important;
+    }
+
+    main {
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        justify-content: stretch !important;
+        align-items: stretch !important;
+        width: 100vw !important;
+        max-width: 100vw !important;
+        min-width: 0 !important;
+        height: 100vh !important;
+        max-height: 100vh !important;
+        min-height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: #fff !important;
+        color: #000 !important;
+        font-size: 12pt !important;
+        box-sizing: border-box !important;
+        gap: 20px !important;
+        page-break-after: avoid !important;
+        page-break-before: avoid !important;
+        break-after: avoid-page !important;
+        break-before: avoid-page !important;
+    }
+
+    main>section {
+        flex: 1 1 0;
+        min-width: 0;
+        max-width: 50vw;
+        box-sizing: border-box !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid-page !important;
+    }
+
+    *,
+    *::before,
+    *::after {
+        box-shadow: none !important;
+    }
+
+    #S1,
+    #S5,
+    #fies-b {
+        display: none !important;
+    }
+
+    html,
+    body {
+        height: 100vh !important;
+        max-height: 100vh !important;
+        min-height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: #fff !important;
+        page-break-after: avoid !important;
+        page-break-before: avoid !important;
+        break-after: avoid-page !important;
+        break-before: avoid-page !important;
+    }
+}
